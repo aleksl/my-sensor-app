@@ -1,0 +1,10 @@
+  <div fxFlex="300px" fxFlex.xs="100" fxFlexOffset.xs="0" fxFlexOffset="calc(50% - 150px)" fxLayout="column" style="padding: 10px;">
+      <mat-form-field>
+        <input [formControl]="autoCompleteControl" type="text" placeholder="Search" aria-label="Number" matInput [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let sensor of sensors$ | async; let index = index" [value]="sensor.name" (click)="redirectToOtherSensor(sensor.id)">
+            <button mat-button>{{sensor.name | titlecase}}</button>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div> 

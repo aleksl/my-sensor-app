@@ -1,0 +1,19 @@
+<h2>My Sensors</h2>
+<ul class="sensors">
+  <li *ngFor="let sensor of sensors">
+    <a routerLink="/detail/{{sensor.id}}">
+      <span class="badge">{{sensor.id}} </span>{{sensor.name}}
+    </a>
+    <button class="delete" title="delete sensor" (click)="delete(sensor)">x</button>
+  </li>
+</ul>
+
+<div>
+  <label>
+    Sensor Name:
+    <input type="text" #sensorName>
+  </label>
+  <button (click)="add(sensorName.value); sensorName.value=''">
+    Add new
+  </button>
+</div>

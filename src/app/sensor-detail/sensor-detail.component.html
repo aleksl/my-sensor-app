@@ -1,0 +1,122 @@
+<div *ngIf="sensor">
+  <div class="bounds">
+    <div class="content" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+      <div fxFlex="30" class="left_section">
+        <mat-card class="card">
+          <mat-card-header>
+            <div mat-card-avatar class="header-image"></div>
+            <mat-card-title>{{sensor.name | uppercase}} Details</mat-card-title>
+            <mat-card-subtitle>{{sensor.latitude}}, {{sensor.longitude}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <form class="form">
+              <table class="full-width" cellspacing="0">
+                <tr>
+                  <td>
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Id" disabled value="{{sensor.id}}">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <section class="section">
+                      <mat-slide-toggle class="margin" [color]="primary" [checked]="sensor.enable" [disabled]="true">
+                        <div *ngIf="sensor.enable == true; else elseBlock">Enable</div>
+                        <ng-template #elseBlock>Disable</ng-template>
+                      </mat-slide-toggle>
+                    </section>
+                  </td>
+                </tr>
+              </table>
+              <table class="full-width" cellspacing="0">
+                <tr>
+                  <td>
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Latitude" disabled value="{{sensor.latitude}}">
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="Longitude" disabled value="{{sensor.longitude}}">
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </table>
+            </form>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="goBack()">go back</button>
+            <button mat-button (click)="save()">save</button>
+          </mat-card-actions>
+        </mat-card>
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <div mat-card-avatar [style.backgroundColor]="backgroudColor" class="smog-panel-header-image">SMOG
+                  Details</div>
+              </mat-panel-title>
+              <mat-panel-description class="smog-panel-description">
+                <div *ngIf="!panelOpenState">pm1: {{sensor.sensorDust.pm1}}, pm2.5: {{sensor.sensorDust.pm25}}, pm10:
+                  {{sensor.sensorDust.pm10}} [ug/m3]</div>
+                <ng-template #elseBlock>
+                </ng-template>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="sensor.sensorDust">
+              <form class="form">
+                <table class="full-width" cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="pm1 [ug/m3]:" disabled value="{{sensor.sensorDust.pm1}}">
+                      </mat-form-field>
+                    </td>
+                    <td rowspan="4">
+                      <app-dust-range></app-dust-range>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="pm2.5 [ug/m3]:" disabled value="{{sensor.sensorDust.pm25}}">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="pm10 [ug/m3]:" disabled value="{{sensor.sensorDust.pm10}}">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="date:" disabled
+                          value="{{sensor.sensorDust.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                MAP Details
+              </mat-panel-title>
+              <mat-panel-description>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="sensor.sensorDust">
+              <here-map [sensors]="[sensor]" width="100px" height="500px" details=true></here-map>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div fxFlex="70" class="right_section">
+        <app-sensor-chart [sensor]="sensor"></app-sensor-chart>
+      </div>
+    </div>
+  </div>

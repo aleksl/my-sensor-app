@@ -1,0 +1,57 @@
+.card {
+    /*max-width: 400px;*/
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.header-image {
+    background-image: url('../../assets/images/shiba1.jpg');
+    background-size: cover;
+}
+
+.section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.margin {
+    margin: 10px;
+}
+
+.bounds {
+    background-color: #fff;
+}
+
+.left_section {
+    min-height: 100%;
+}
+
+.right_section {
+    padding-top: 10px;
+    min-height: 100%;
+}
+
+.left_section,
+.right_section {
+    text-align: center
+}
+
+.content {
+    min-width: 300px;
+}
+
+.full-width {
+    padding: 5px;
+}
+
+.smog-panel-description {
+    padding-top: 20px;
+}
+
+.smog-panel-header-image {
+    width: 100px;
+    padding-top: 20px;
+    border-radius: 0;  
+}

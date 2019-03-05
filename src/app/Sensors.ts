@@ -1,4 +1,5 @@
 import { SensorDust } from './SensorDust';
+import { SensorTempHumPress } from './SensorTempHumPress';
 
 export class Sensors {
     id: number;
@@ -8,4 +9,5 @@ export class Sensors {
     enable: boolean;
 
     sensorDust: SensorDust;
+    sensorTempHumPress : SensorTempHumPress;
 }

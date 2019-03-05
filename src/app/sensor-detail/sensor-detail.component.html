@@ -49,14 +49,17 @@
           </mat-card-actions>
         </mat-card>
         <mat-accordion>
-          <mat-expansion-panel [expanded]="true" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+          <mat-expansion-panel [expanded]="true" (opened)="smogPanelOpenState = true"
+            (closed)="smogPanelOpenState = false">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <div mat-card-avatar [style.backgroundColor]="backgroudColor" class="smog-panel-header-image">SMOG
-                  Details</div>
+                <div mat-card-avatar [style.backgroundColor]="backgroudColor" class="smog-panel-header-image">AIR DUST
+                </div>
               </mat-panel-title>
               <mat-panel-description class="smog-panel-description">
-                <div *ngIf="!panelOpenState">pm1: {{sensor.sensorDust.pm1}}, pm2.5: {{sensor.sensorDust.pm25}}, pm10:
+                <div *ngIf="sensor.sensorDust && !smogPanelOpenState">pm1: {{sensor.sensorDust.pm1}}, pm2.5:
+                  {{sensor.sensorDust.pm25}}, pm10:
                   {{sensor.sensorDust.pm10}} [ug/m3]</div>
                 <ng-template #elseBlock>
                 </ng-template>
@@ -101,10 +104,69 @@
               </form>
             </div>
           </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="true" (opened)="tempPanelOpenState = true"
+            (closed)="tempPanelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <div class="default-panel-header">TEMP, HUMIDITY, PRESSURE</div>
+              </mat-panel-title>
+              <mat-panel-description class="temp-panel-description">
+                <div *ngIf="sensor.sensorTempHumPress && !tempPanelOpenState">temp1: {{sensor.sensorTempHumPress.temp1}}
+                  [°C], temp2:
+                  {{sensor.sensorTempHumPress.temp2}} [°C], humidity:
+                  {{sensor.sensorTempHumPress.humidity}} [%], pressure:
+                  {{sensor.sensorTempHumPress.pressure}} [hPa]</div>
+                <ng-template #elseBlock>
+                </ng-template>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="sensor.sensorTempHumPress">
+              <form class="form">
+                <table class="full-width" cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="Temp1 [°C]:" disabled value="{{sensor.sensorTempHumPress.temp1}}">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="Temp2 [°C]:" disabled value="{{sensor.sensorTempHumPress.temp2}}">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="humidity [%]:" disabled
+                          value="{{sensor.sensorTempHumPress.humidity}}">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="pressure [hPa]:" disabled
+                          value="{{sensor.sensorTempHumPress.pressure}}">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-form-field class="full-width">
+                        <input matInput placeholder="date:" disabled
+                          value="{{sensor.sensorTempHumPress.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}">
+                      </mat-form-field>
+                    </td>
+                    <td></td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+          </mat-expansion-panel>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                MAP Details
+                <div class="default-panel-header">MAP</div>
               </mat-panel-title>
               <mat-panel-description>
               </mat-panel-description>

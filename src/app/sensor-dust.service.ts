@@ -23,16 +23,16 @@ export class SensorDustService extends SensorUtilsService {
     super(messageService);
   }
 
-  addSensorDustByGet(id: number): Observable<Sensors> {
+  addSensorDustByGet(id: number): Observable<string> {
     var pm1 = Math.floor((Math.random() * 300) + 1);
     var pm25 = Math.floor((Math.random() * 300) + 1);
     var pm10 = Math.floor((Math.random() * 300) + 1);
     const url = this.sensorsDustUrl + "/add?sensorId=" + `${id}` + "&pm1=" + pm1 + "&pm25=" + pm25 + "&pm10=" + pm10 + "&apiKey=111122223333";
-    return this.http.get<Sensors>(url).pipe(map(response => {
+    return this.http.get<string>(url).pipe(map(response => {
       return response["result"];
     }),
-      tap(_ => this.log(`fetched sensor id=${id}`)),
-      catchError(this.handleError<Sensors>(`getSensor id=${id}`))
+      tap(_ => this.log(`added SensorTempHumPress`)),
+      catchError(this.handleError<string>(`add SensorTempHumPress error`))
     );
   }
 

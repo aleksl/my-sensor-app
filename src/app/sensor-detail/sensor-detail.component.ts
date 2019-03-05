@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 
 import { SensorService } from '../sensor.service';
 import { SensorDustService } from '../sensor-dust.service';
+import { SensorTempHumPressService } from '../sensor-temp-hum-press.service';
 import { interval } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
@@ -24,6 +25,7 @@ export class SensorDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private sensorService: SensorService,
     private sensorDustService: SensorDustService,
+    private sensorTempHumPressService: SensorTempHumPressService,
     private location: Location
   ) { }
 
@@ -31,11 +33,16 @@ export class SensorDetailComponent implements OnInit {
     this.getSensor();
     //temp for fill data
     this.addNewMeasurmentOfSensorDust();
+    this.addNewMeasurmentOfSensorTempHumPress();
     const seconds = interval(15000);
     seconds.pipe().subscribe(
       value => {
-        this.addNewMeasurmentOfSensorDust(),
-          this.getCurrentSensorDust(this.sensor);
+        //temp for fill data
+        this.addNewMeasurmentOfSensorDust();
+        this.addNewMeasurmentOfSensorTempHumPress();
+        //end
+        this.getCurrentSensorDust(this.sensor);
+        this.getCurrentSensorTempHumPress(this.sensor);
       },
       err => console.log(err),
     );
@@ -47,7 +54,13 @@ export class SensorDetailComponent implements OnInit {
       .subscribe();
   }
 
-  getCurrentSensorDust(sensor : Sensors): void {
+  addNewMeasurmentOfSensorTempHumPress() {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.sensorTempHumPressService.addSensorTempHumPressByGet(id)
+      .subscribe();
+  }
+
+  getCurrentSensorDust(sensor: Sensors): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.sensorDustService.getSensorDustBySensorIdCount(id, 1)
       .subscribe(sensorDustList => {
@@ -59,12 +72,23 @@ export class SensorDetailComponent implements OnInit {
       });
   }
 
+  getCurrentSensorTempHumPress(sensor: Sensors): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.sensorTempHumPressService.getSensorTempHumPressBySensorIdCount(id, 1)
+      .subscribe(sensorTempHumPressList => {
+        if (sensorTempHumPressList != null && sensorTempHumPressList.length == 1) {
+          sensor.sensorTempHumPress = sensorTempHumPressList[0];
+        }
+      });
+  }
+
   getSensor(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.sensorService.getSensor(id)
       .subscribe(sensor => {
         this.sensor = sensor;
-        this.getCurrentSensorDust(this.sensor)
+        this.getCurrentSensorDust(this.sensor);
+        this.getCurrentSensorTempHumPress(this.sensor);
       });
   }
 
